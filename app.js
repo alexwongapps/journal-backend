@@ -127,4 +127,19 @@ app.get("/prompts", async (_, res) => {
   res.json(data);
 });
 
+app.get("/settings", async (_, res) => {
+  const { data, error } = await noAuthClient
+    .from("settings")
+    .select("config")
+    .eq("name", "main")
+    .single();
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.json(data.config);
+});
+
+
 export default app;
